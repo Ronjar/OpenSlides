@@ -232,28 +232,30 @@ export class AssignmentDetailComponent extends BaseViewComponentDirective implem
         const isManager = this.operator.hasPerms(Permission.assignmentsCanManage);
         switch (operation) {
             case 'addSelf':
-                if (isManager && !this.assignment.isFinished) {
+                if (isManager && !this.assignment.isVoting && !this.assignment.isFinished) {
                     return true;
                 } else {
                     return (
                         this.assignment.isSearchingForCandidates &&
                         this.operator.hasPerms(Permission.assignmentsCanNominateSelf) &&
-                        !this.assignment.isFinished
+                        !this.assignment.isFinished &&
+                        !this.assignment.isVoting
                     );
                 }
             case 'addOthers':
-                if (isManager && !this.assignment.isFinished) {
+                if (isManager && !this.assignment.isVoting && !this.assignment.isFinished) {
                     return true;
                 } else {
                     return (
                         this.assignment.isSearchingForCandidates &&
                         this.operator.hasPerms(Permission.assignmentsCanNominateOther) &&
-                        !this.assignment.isFinished
+                        !this.assignment.isFinished &&
+                        !this.assignment.isVoting
                     );
                 }
             case 'createPoll':
                 return (
-                    isManager && this.assignment && !this.assignment.isFinished && this.assignment.candidateAmount > 0
+                    isManager && this.assignment && !this.assignment.isFinished && !this.assignment.isVoting && this.assignment.candidateAmount > 0
                 );
             case 'manage':
                 return isManager;

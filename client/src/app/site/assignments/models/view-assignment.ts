@@ -69,6 +69,15 @@ export class ViewAssignment
     }
 
     /**
+     * @returns true if the assignment is in the 'voting' state
+     * (not accepting candidates anymore)
+     */
+    public get isVoting(): boolean {
+        const votingState = AssignmentPhases.find(ap => ap.name === 'PHASE_VOTING');
+        return this.phase === votingState.value;
+    }
+
+    /**
      * @returns true if the assignment is in the 'searching' state
      */
     public get isSearchingForCandidates(): boolean {
